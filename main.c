@@ -3,7 +3,7 @@
 int	main(int ac, char **av)
 {
 	u_keys	key;	
-	t_req	files;
+	t_req	*files;
 
 	if(ac > ARG_MAX)
 		ft_err(2);
@@ -11,21 +11,22 @@ int	main(int ac, char **av)
 		ft_err(1);
 	else
 		key = ft_looker(av, ac);
-	printf("%d\n", key.R);
-	printf("%d\n", key.a);
-	printf("%d\n", key.l);
-	printf("%d\n", key.r);
-	printf("%d\n", key.t);
-	printf("%d\n", key.u);
-	printf("%d\n", key.g);
-	printf("%d\n", key.f);
-	printf("%d\n", key.d);
-	printf("%d\n", key.i);
-	printf("%d\n", key.U);
-	printf("%d\n", key.s);
-	printf("%d\n", key.k_1);
-	printf("%d\n", key.x);
-	printf("%d\n", key.S);
-	printf("%d\n", key.A);
+	files = fill_list(av, ac, key);	
+	printf("key R %d\n", key.R);
+	printf("key a %d\n", key.a);
+	printf("key l %d\n", key.l);
+	printf("key r %d\n", key.r);
+	printf("key t %d\n", key.t);
+	printf("key u %d\n", key.u);
+	printf("key g %d\n", key.g);
+	printf("key f %d\n", key.f);
+	printf("key d %d\n", key.d);
+	printf("key i %d\n", key.i);
+	printf("key U %d\n", key.U);
+	printf("key s %d\n", key.s);
+	printf("key 1 %d\n", key.k_1);
+	printf("key x %d\n", key.x);
+	printf("key S %d\n", key.S);
+	printf("key A %d\n", key.A);
 	return (0);
 }

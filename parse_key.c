@@ -30,6 +30,8 @@ static u_keys	ft_toggler(u_keys *key, int res)
 		(key->S > key->t) ? (key->S = 0) : (key->t = 0);
 	if (temp.U || temp.t)
 		(key->U > key->t) ? (key->U = 0) : (key->t = 0);
+	if (temp.f || temp.l)
+		(key->f > key->l) ? (key->f = 0) : (key->l = 0);
 	if (temp.x || temp.k_1)
 		(key->x > key->k_1) ? (key->x = 0) : (key->k_1 = 0);
 	temp.flags |= key->flags;
@@ -42,13 +44,20 @@ static u_keys ft_disable(u_keys *key)
 
 	temp = (*key);
 	if (temp.g & 1)
+	{
 		temp.l = 0;
-	if (temp.g & 1)
 		temp.k_1 = 0;
+	}
 	if (temp.l & 1)
 		temp.k_1 = 0;
 	if (temp.a & 1)
 		temp.A = 0;
+	if (temp.f & 1)
+	{
+		temp.u = 0;
+		temp.a = 1;
+		temp.U = 1;
+	}
 	return (temp);
 }
 

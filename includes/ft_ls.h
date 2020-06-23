@@ -6,9 +6,13 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <stdio.h>
+# include <linux/limits.h>
+# include <string.h>
+# include <time.h>
 
 # define OPTIONS ("RalrtugfdiUs1xSA")
-# define ARG_MAX 2097152
+
+typedef struct stat t_stat;
 
 typedef union	u_keys
 {
@@ -34,14 +38,24 @@ typedef union	u_keys
 		};
 } 	u_keys;
 
-
-typedef struct s_req
+typedef struct		s_req
 {
-	char	*name;
-	struct s_req *next;
-}	t_req;
+	mode_t		mode;
+	nlink_t		num_link;
+	off_t		size;
+	uid_t		own_uid;
+	gid_t		grp_gid;
+	dev_t		req_dev;
+	blkcnt_t	block;
+	time_t		time;
+	long		ntime;
+	char		*name;
+	char		path[PATH_MAX];
+	struct s_req 	*next;
+}			t_req;
 
-void	ft_err(int i);
-u_keys ft_looker(char **const av, const int ac);
+void		ft_err(int i);
+u_keys		ft_looker(char **const av, const int ac);
+t_req		fill_list(char **av, int ac, u_keys key);
 
 #endif
