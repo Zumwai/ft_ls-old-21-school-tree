@@ -49,28 +49,18 @@ typedef struct		s_req
 	gid_t		grp_gid;
 	dev_t		req_dev;
 	blkcnt_t	block;
-	time_t		mtime;
-	time_t		atime;
-	time_t		btime;
+	time_t		time;
+	long		ntime;
 	char		*name;
 	char		path[PATH_MAX];
 	struct s_req 	*next;
 	struct s_req	*right;
-	struct s_req	*prev;
 }			t_req;
 
 void		ft_err(int i);
 u_keys		ft_looker(char **const av, int const ac, int *c);
-t_req		*fill_list(char **av, int ac);
-t_req		*ft_parse_av(t_req *files, u_keys key, int ac, int c);
+t_req		*fill_list(char **av, int ac, u_keys key);
+int		ft_parse_av(t_req *files, u_keys key, int ac, int c);
 int		add_file(char [PATH_MAX], char *name, t_req **head);
-t_req		*handle_nodir(t_req *files, u_keys key);
-int		ft_distributer(t_req *lst, u_keys key);
-t_req		*swap_nodes(t_req *node1, t_req *node2);
-long int		deter_time(t_req *fls, u_keys key);
-t_req		*ft_shift_lex(t_req *lst);
 
-t_req		*key_S_size(t_req *fls);
-t_req		*key_t_time(t_req *files, u_keys key);
-t_req		*ft_lex_sort(t_req *fls);
 #endif

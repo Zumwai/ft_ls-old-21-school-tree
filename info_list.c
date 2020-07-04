@@ -9,17 +9,19 @@ static int	map_path(char path[PATH_MAX], char *name, char full_path[PATH_MAX])
 		full_path[i]=path[i];
 	if (i && i < PATH_MAX)
 		if (!(path[0] == '/' && path[1] == '\0'))
-			full_path[i++] = '\0';
+			full_path[i++] = '/';
 	while (*name && i < PATH_MAX)
 		full_path[i++] = *name++;
 	if (i < PATH_MAX)
-		full_path = '\0';
+		full_path[i] = '\0';
 	else
 		ft_err(7);
 	return ((i < PATH_MAX) ? 1 : 0);
 }
 
-t_req	*new_entry(char *name, t_stat *stat)
+
+
+static t_req	*new_entry(char *name, t_stat *stat, char path[PATH_MAX])
 {
 	t_req	*new;
 
@@ -34,14 +36,18 @@ t_req	*new_entry(char *name, t_stat *stat)
 	new->grp_gid = stat->st_gid;
 	new->req_dev = stat->st_rdev;
 	new->block = stat->st_blocks;
-	new->time = stat->st_mtime;
-	new->ntime = stat->st_mtimespec;
-
+	new->mtime = stat->st_mtime;
+	new->atime = stat->st_atime;
+	new->btime = stat->st_birthtime;
+	map_path(path, name, new->path);
+	new->right = NULL;
+	new->prev = NULL;
+	new->next = NULL;
 	return (new);
 }
 		
 
-static int	add_file(char *path[PATH_MAX], char *name, t_req **head)
+int	add_file(char path[PATH_MAX], char *name, t_req **head)
 {	
 	char	full_path[PATH_MAX];
 	t_stat	stat;
@@ -51,30 +57,41 @@ static int	add_file(char *path[PATH_MAX], char *name, t_req **head)
 	if (lstat(full_path, &stat) == -1)
 		return (0);
 	if (!*head)
-		*head = new_entry(name, &stat);
+		*head = new_entry(name, &stat, path);
 	else
 	{
 		while ((*head)->next)
-			(*head) = (*head)->next;
-		(*head)->next = new_entry(name, &stat);
+			head = &((*head)->next);
+		(*head)->next = new_entry(name, &stat, path);
+		(*head)->next->prev = (*head);
+	}
 	return (1);
-}
-	
+}	
 
-t_req	*fill_list(char	**av, int ac, u_keys key)
+t_req	*fill_list(char	**av, int ac)
 {
 	t_req	*head;
 	int	i;
+	int	flag;
 
 	head= NULL;
-	while(i < ac)
+	i = 1;
+	flag = 0;
+	while(av[i])
 	{
-		if(av[i][0] != '-')
+		if(av[i][0] == '-' && av[i][1] == '-' && av[i][2] == '\0')
+			flag = 1;
+		else if(av[i][0] != '-' && flag == 0)
 		{
-				if (!(add_file("", av[i], &head)))
+			if (!(add_file("", av[i], &head)))
 				ft_err(5);
 		}
+		else if(flag == 1)
+			if(!(add_file("", av[i], &head)))
+				ft_err(5);
 		i++;
-	}			
+	}
+	if (!head)
+		add_file("", ".", &head);
 	return (head);
 }

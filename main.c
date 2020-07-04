@@ -4,14 +4,17 @@ int	main(int ac, char **av)
 {
 	u_keys	key;	
 	t_req	*files;
+	int	i;
 
+	i = 0;
+	files = NULL;
 	if(ac > ARG_MAX)
 		ft_err(2);
-	if(ac == 1)
-		ft_err(1);
-	else
-		key = ft_looker(av, ac);
-	files = fill_list(av, ac, key);	
+	key = ft_looker(av, ac, &i);
+	files = fill_list(&av[i], ac - i);	
+	ft_parse_av(files, key, ac - i, 2);
+	files = handle_nodir(files, key);
+/*
 	printf("key R %d\n", key.R);
 	printf("key a %d\n", key.a);
 	printf("key l %d\n", key.l);
@@ -28,5 +31,13 @@ int	main(int ac, char **av)
 	printf("key x %d\n", key.x);
 	printf("key S %d\n", key.S);
 	printf("key A %d\n", key.A);
+	printf("WE GOT HIM ITS A NAME %s\n", files->name);
+	printf("WE GOT HIS ADRESS %s\n", files->path);
+	while(files)
+	{
+		printf("%s name\n%s path\n-------\n", files->name, files->path);
+		files = files->next;
+		}
+		*/
 	return (0);
 }

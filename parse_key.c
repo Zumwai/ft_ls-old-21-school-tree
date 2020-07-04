@@ -56,8 +56,9 @@ static u_keys ft_disable(u_keys *key)
 	{
 		temp.u = 0;
 		temp.a = 1;
-		temp.U = 1;
 	}
+	if (temp.d & 1)
+		temp.R = 0;
 	return (temp);
 }
 
@@ -73,37 +74,42 @@ static int	ft_check_key(u_keys *key, char *av)
 	{
 		res = ft_char_comp(av[i], OPTIONS);
 		if (res < 0)
-			return (1); 	//error exit no such key
+			return (0); 	//error exit no such key
 		else
 			*key = ft_toggler(key, res);
 		i++;
 	}
 	*key = ft_disable(key);
-	return (0);
+	return (1);
 }
 			
 			
 
-u_keys	ft_looker(char **const av, const int ac)
+u_keys	ft_looker(char **const av, int const ac, int *c)
 {
 	u_keys	key;
 	unsigned int i;
+	
 
 	i = 1;
 	key.flags = 0;
 	while(i < ac)
 	{
-		if (av[0][0] == '-' && av[0][1] == '-' && !av[0][2])
-		{
-			key.flags = 0;
+		if (av[i][0] != '-')
 			return (key);
-		}		
-		if (av[i][0] == '-' && av[i][1] == '-' && av[i][2])
-			ft_err(4);
-		if (av[i][0] == '-' && av[i][1])
+		if (av[i][0] == '-' && av[i][1] == '-' && !av[i][2])
 		{
-			if(ft_check_key(&key, av[i]))
+			*c += 1;
+			return (key);
+		}
+		else if (av[i][0] == '-' && av[i][1] == '-' && av[i][2])
+			ft_err(4);
+		else if (av[i][0] == '-' && av[i][1])
+		{
+			if(!(ft_check_key(&key, av[i])))
 				ft_err(3);
+			else
+				*c += 1;
 		}
 		i++;
 	}

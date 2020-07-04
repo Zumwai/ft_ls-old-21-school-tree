@@ -17,4 +17,6 @@ void	ft_err(int i)
 	if (i == 7)
 		printf("%s\n", "ft_ls path too long\nexit code 7");
 	exit(-1);
+	if (i == 8)
+		printf("%s\n", "ft_ls read_inside can't open folder\nexit code 8\n");
 }
