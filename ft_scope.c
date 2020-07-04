@@ -20,7 +20,7 @@ static t_req *key_r_reverse(t_req *fls)
 	return (prev);
 }
 
-int	ft_distributer(t_req	*lst, u_keys key)
+int	ft_distributer(t_req *lst, u_keys key)
 {
 /*
 	if (key.flags == 0 || (key.t & 0 && key.u & 0
@@ -29,6 +29,11 @@ int	ft_distributer(t_req	*lst, u_keys key)
 	*/
 	if (key.f)
 		return (0);
+	/*
+	if (key.d == 0)
+		if (key.A == 0 || key.a == 0)
+			lst = ft_remove_point(lst, key);
+	*/
 	if(lst)
 	{	
 		lst = ft_lex_sort(lst);

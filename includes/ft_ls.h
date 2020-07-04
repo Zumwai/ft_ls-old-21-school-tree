@@ -69,6 +69,8 @@ int		ft_distributer(t_req *lst, u_keys key);
 t_req		*swap_nodes(t_req *node1, t_req *node2);
 long int		deter_time(t_req *fls, u_keys key);
 t_req		*ft_shift_lex(t_req *lst);
+t_req		*ft_remove_point(t_req *fls, u_keys key);
+int		ft_check_dots(const char *s1);
 
 t_req		*key_S_size(t_req *fls);
 t_req		*key_t_time(t_req *files, u_keys key);

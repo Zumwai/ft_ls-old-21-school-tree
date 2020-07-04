@@ -29,3 +29,36 @@ long int	deter_time(t_req *fls, u_keys key)
 	}
 	return(0);
 }
+
+t_req	*ft_remove_point(t_req *fls, u_keys key)
+{
+	t_req	*head;
+	t_req	*tmp;
+
+	head = fls;
+	while(fls)
+	{
+		tmp = fls->next;
+		if ((strcmp(fls->name, ".") || strcmp(fls->name, ".."))
+		&& key.a == 0)
+		{
+			if (fls == head)
+				head = head->next;
+			if (fls->next != NULL)
+				fls->next->prev = fls->prev;
+			if (fls->prev != NULL)
+				fls->prev->next = fls->next;
+			free(fls);
+		}
+		fls = tmp;
+	}
+	return (head);
+}
+
+int	ft_check_dots(const char *s1)
+{
+	if (strcmp(s1, ".") || strcmp (s1, ".."))
+		return (1);
+	return (0);
+}
+

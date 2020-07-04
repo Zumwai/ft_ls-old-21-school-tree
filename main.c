@@ -13,7 +13,10 @@ int	main(int ac, char **av)
 	key = ft_looker(av, ac, &i);
 	files = fill_list(&av[i], ac - i);	
 	ft_parse_av(files, key, ac - i, 2);
-	files = handle_nodir(files, key);
+	printf("%d - key all, %d - key d\n", key.flags, key.d);
+	if(key.d == 0)
+		files = handle_nodir(files, key);
+	ft_distributer(files, key);
 /*
 	printf("key R %d\n", key.R);
 	printf("key a %d\n", key.a);

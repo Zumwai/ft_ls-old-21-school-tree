@@ -17,10 +17,15 @@ static t_req	*read_inside(char path[PATH_MAX], char *name, u_keys key)
 	head = NULL;
 	if (!(fold = opendir(path)))
 		ft_err(8);
-	if (key.d & 1)
-		add_file(path, ".", &head);
 	while ((insider = readdir(fold)))
-		add_file(path, insider->d_name, &head);
+	{
+		if (key.a == 1)
+			add_file(path, insider->d_name, &head);
+		else if (key.A == 1 && !ft_check_dots(insider->d_name))
+			add_file(path, insider->d_name, &head);
+		else if (insider->d_name[0] != '.')
+			add_file(path, insider->d_name, &head);
+	}
 	closedir(fold);
 	return (head);
 }
@@ -47,7 +52,8 @@ t_req	*ft_parse_av(t_req *files, u_keys key, int ac, int c)
 	curs = files;
 	while(curs)
 	{
-		if (S_ISDIR(curs->mode) && (c || (strcmp(curs->name, ".") && strcmp(curs->name, "..")))) //LIB STRMCMPFEFE
+//		if (S_ISDIR(curs->mode) && (c || (strcmp(curs->name, ".") && strcmp(curs->name, "..")))) //LIB STRMCMPFEFE
+		if (S_ISDIR(curs->mode) && (c || ft_check_dots(curs->name)))
 		{
 			curs->right = read_inside(curs->path, curs->name, key);
 			if(key.R & 1)
