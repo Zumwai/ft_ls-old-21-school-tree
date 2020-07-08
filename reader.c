@@ -53,7 +53,7 @@ t_req	*ft_parse_av(t_req *files, u_keys key, int ac, int c)
 	while(curs)
 	{
 //		if (S_ISDIR(curs->mode) && (c || (strcmp(curs->name, ".") && strcmp(curs->name, "..")))) //LIB STRMCMPFEFE
-		if (S_ISDIR(curs->mode) && (c || ft_check_dots(curs->name)))
+		if (S_ISDIR(curs->mode) && (c || !ft_check_dots(curs->name)))
 		{
 			curs->right = read_inside(curs->path, curs->name, key);
 			if(key.R & 1)

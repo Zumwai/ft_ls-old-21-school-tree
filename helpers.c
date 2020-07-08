@@ -20,11 +20,9 @@ long int	deter_time(t_req *fls, u_keys key)
 {
 	if (fls)
 	{
-		if (key.u & 1)
-			return(fls->atime);
-		else if (key.U & 1)
+		if (key.U & 1)
 			return(fls->btime);
-		else if (key.t & 1)
+		 if (key.t & 1)
 			return(fls->mtime);
 	}
 	return(0);
@@ -57,8 +55,10 @@ t_req	*ft_remove_point(t_req *fls, u_keys key)
 
 int	ft_check_dots(const char *s1)
 {
-	if (strcmp(s1, ".") || strcmp (s1, ".."))
-		return (1);
-	return (0);
+	if (strcmp(s1, "..") && strcmp (s1, "."))
+		return (0);	
+//	if ((strncmp(s1, ".", 1) || strncmp (s1, "..", 2)))
+//		return (1);
+	return (1);
 }
 

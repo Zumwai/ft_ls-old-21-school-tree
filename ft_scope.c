@@ -1,52 +1,55 @@
 #include "ft_ls.h"
 
-static t_req *key_r_reverse(t_req *fls)
+static	t_req *ft_sorting(t_req *lst, u_keys key)
 {
-	t_req	*foll;
-	t_req	*curr;
-	t_req	*prev;
-
-	prev = NULL;
-	curr = fls;
-	foll = fls;
-
-	while(curr != NULL)
+	if (lst)
 	{
-		foll = foll->next;
-		curr->next = prev;
-		prev = curr;
-		curr = foll;
-	}
-	return (prev);
-}
-
-int	ft_distributer(t_req *lst, u_keys key)
-{
-/*
-	if (key.flags == 0 || (key.t & 0 && key.u & 0
-	&& key.r & 0 && key.t & 0 && key.U & 0 && key.S & 0
-	&& key.f & 0))
-	*/
-	if (key.f)
-		return (0);
-	/*
-	if (key.d == 0)
-		if (key.A == 0 || key.a == 0)
-			lst = ft_remove_point(lst, key);
-	*/
-	if(lst)
-	{	
 		lst = ft_lex_sort(lst);
 		if (key.S)
 			lst = key_S_size(lst);
-		if (key.t || key.u || key.U)
-			lst = key_t_time(lst, key);
+		if (key.t)
+			lst = key_t_time(lst);
+		if (key.U)
+			lst = key_U_birth(lst);
+		if (key.u)
+			lst = key_u_access(lst);
 		if (key.r)
 			lst = key_r_reverse(lst);
 	}
+	return(lst);
+}
+
+void	ft_print_files(t_req *lst, u_keys key)
+{
+	t_req	*tmp;
+	
+	tmp = lst;
+	tmp = ft_sorting(tmp, key);
+	while(tmp)
+	{
+		printf("%s ", tmp->name);
+		tmp = tmp->next;
+	}
+}
+
+int	ft_distributer(t_req *lst, u_keys key, int stage)
+{
+	t_req	*tmp;
+//	if (!stage)
+	lst = handle_nodir(lst, key, stage);
+	lst = ft_sorting(lst, key);
 	while(lst)
 	{
-		printf("%s\n", lst->name);
+		printf("%s:\n", lst->name);
+		tmp = lst->right;
+		ft_print_files(tmp, key);
+		puts("");
+		if (key.R)
+		{
+			puts("i am segfault");
+			ft_distributer(lst->right, key, 1);
+		}
+		puts("");
 		lst = lst->next;
 	}
 	return (0);

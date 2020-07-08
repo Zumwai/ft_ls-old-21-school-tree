@@ -64,15 +64,19 @@ u_keys		ft_looker(char **const av, int const ac, int *c);
 t_req		*fill_list(char **av, int ac);
 t_req		*ft_parse_av(t_req *files, u_keys key, int ac, int c);
 int		add_file(char [PATH_MAX], char *name, t_req **head);
-t_req		*handle_nodir(t_req *files, u_keys key);
-int		ft_distributer(t_req *lst, u_keys key);
+t_req		*handle_nodir(t_req *files, u_keys key, int stage);
+int		ft_distributer(t_req *lst, u_keys key, int stage);
 t_req		*swap_nodes(t_req *node1, t_req *node2);
 long int		deter_time(t_req *fls, u_keys key);
 t_req		*ft_shift_lex(t_req *lst);
 t_req		*ft_remove_point(t_req *fls, u_keys key);
 int		ft_check_dots(const char *s1);
+void		ft_print_files(t_req *lst, u_keys key);
 
+t_req		*key_u_access(t_req *fls);
+t_req		*key_r_reverse(t_req *fls);
 t_req		*key_S_size(t_req *fls);
-t_req		*key_t_time(t_req *files, u_keys key);
+t_req		*key_t_time(t_req *files);
+t_req		*key_U_birth(t_req *fls);
 t_req		*ft_lex_sort(t_req *fls);
 #endif
