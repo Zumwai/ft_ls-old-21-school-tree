@@ -38,10 +38,10 @@ static t_req	*new_entry(char *name, t_stat *stat, char path[PATH_MAX])
 	new->block = stat->st_blocks;
 	new->mtime = stat->st_mtime;
 	new->atime = stat->st_atime;
+	new->inode = stat->st_ino;
 	new->btime = stat->st_birthtime;
 	map_path(path, name, new->path);
 	new->right = NULL;
-	new->prev = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -63,7 +63,6 @@ int	add_file(char path[PATH_MAX], char *name, t_req **head)
 		while ((*head)->next)
 			head = &((*head)->next);
 		(*head)->next = new_entry(name, &stat, path);
-		(*head)->next->prev = (*head);
 	}
 	return (1);
 }	
@@ -79,15 +78,10 @@ t_req	*fill_list(char	**av, int ac)
 	flag = 0;
 	while(av[i])
 	{
-		if(av[i][0] == '-' && av[i][1] == '-' && av[i][2] == '\0')
+		if(av[i][0] == '-' && av[i][1] == '-')
 			flag = 1;
-		else if(av[i][0] != '-' && flag == 0)
-		{
+		else if((av[i][0] != '-' && flag == 0) || flag == 1)
 			if (!(add_file("", av[i], &head)))
-				ft_err(5);
-		}
-		else if(flag == 1)
-			if(!(add_file("", av[i], &head)))
 				ft_err(5);
 		i++;
 	}

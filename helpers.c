@@ -1,64 +1,93 @@
 #include "ft_ls.h"
+#include <sys/xattr.h>
 
 t_req	*swap_nodes(t_req *node1, t_req *node2)
 {
 	t_req	*tmp;
 
-	tmp = node1->prev;
-	if (tmp)
-		tmp->next = node2;
-	node2->prev = tmp;
-	node1->prev = node2;
 	node1->next = node2->next;
 	node2->next = node1;
-	if (node1->next != NULL)
-		node1->next->prev = node1;
 	return (node2);
-}
-
-long int	deter_time(t_req *fls, u_keys key)
-{
-	if (fls)
-	{
-		if (key.U & 1)
-			return(fls->btime);
-		 if (key.t & 1)
-			return(fls->mtime);
-	}
-	return(0);
-}
-
-t_req	*ft_remove_point(t_req *fls, u_keys key)
-{
-	t_req	*head;
-	t_req	*tmp;
-
-	head = fls;
-	while(fls)
-	{
-		tmp = fls->next;
-		if ((strcmp(fls->name, ".") || strcmp(fls->name, ".."))
-		&& key.a == 0)
-		{
-			if (fls == head)
-				head = head->next;
-			if (fls->next != NULL)
-				fls->next->prev = fls->prev;
-			if (fls->prev != NULL)
-				fls->prev->next = fls->next;
-			free(fls);
-		}
-		fls = tmp;
-	}
-	return (head);
 }
 
 int	ft_check_dots(const char *s1)
 {
 	if (strcmp(s1, "..") && strcmp (s1, "."))
 		return (0);	
-//	if ((strncmp(s1, ".", 1) || strncmp (s1, "..", 2)))
-//		return (1);
 	return (1);
+}
+
+int	ft_summ_blocksize(t_req *fls)
+{
+	int	total;
+
+	if(fls== NULL)
+		return (0);
+	total = 0;
+	while (fls)
+	{
+		total +=fls->block;
+		fls = fls->next;
+	}
+	printf("total %d\n", total);
+	return (total);
+}
+
+static char	ft_file_type(int mode)
+{
+	mode = (mode & S_IFMT);
+	if (S_ISREG(mode))
+		return ('-');
+	if (S_ISDIR(mode))
+		return ('d');
+	if (S_ISLNK(mode))
+		return ('l');
+	if (S_ISBLK(mode))
+		return ('b');
+	if (S_ISCHR(mode))
+		return ('c');
+	if (S_ISSOCK(mode))
+		return ('s');
+	if (S_ISFIFO(mode))
+		return ('p');
+	return ('-');
+}
+
+void	ft_ACL(int mode, char path[PATH_MAX], char str[11])
+{
+	int	i;
+	i = 0;
+
+	while(i < 10)
+		str[i++] = '-';
+	str[0] = ft_file_type(mode);
+	if (S_IRUSR & mode)
+		str[1] = 'r';
+	if (S_IWUSR & mode)
+		str[2] = 'w';
+	if (S_IXUSR & mode)
+		str[3] = 'x';
+	if (S_IRGRP & mode)
+		str[4] = 'r';
+	if (S_IWGRP & mode)
+		str[5] = 'w';
+	if (S_IXGRP & mode)
+		str[6] = 'x';
+	if (S_IROTH & mode)
+		str[7] = 'r';
+	if (S_IWOTH & mode)
+		str[8] = 'w';
+	if (S_IXOTH & mode)
+		str[9] = 'x';
+	str[10] = '\0';
+	/*
+	if (S_ISUID & mode)
+		str[3] = (str[3] == '-') ? 'S' : 's';
+	if (S_ISGID & mode)
+		str[6] = (str[6] == '-') ? 'S' : 's';
+	if (S_ISVTX & mode)
+		str[9] = (str[9] == '-') ? 'T' : 't';
+		*/
+	ft_putstr(str);
 }
 

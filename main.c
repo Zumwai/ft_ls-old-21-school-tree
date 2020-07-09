@@ -13,8 +13,6 @@ int	main(int ac, char **av)
 	key = ft_looker(av, ac, &i);
 	files = fill_list(&av[i], ac - i);	
 	ft_parse_av(files, key, ac - i, 2);
-//	files = handle_nodir(files, key, 0);
-	puts("");
 	ft_distributer(files, key, 0);
 	return (0);
 }

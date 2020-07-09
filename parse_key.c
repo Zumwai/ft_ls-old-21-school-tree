@@ -99,7 +99,7 @@ u_keys	ft_looker(char **const av, int const ac, int *c)
 			return (key);
 		if (av[i][0] == '-' && av[i][1] == '-' && !av[i][2])
 		{
-			*c += 1;
+		//	*c += 1;
 			return (key);
 		}
 		else if (av[i][0] == '-' && av[i][1] == '-' && av[i][2])

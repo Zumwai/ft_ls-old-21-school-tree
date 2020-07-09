@@ -6,8 +6,10 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 	t_req	*arg;
 	t_req	*tmp;
 	t_req	*chc;
+	t_req	*prev;
 
 	head = files;
+	prev = files;
 	arg = NULL;
 	while (files)
 	{
@@ -15,30 +17,19 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 		if (!S_ISDIR(files->mode))
 		{
 			if (files == head)
-			{
-				puts("head");
 				head = head->next;
-			}
-			if (files->next != NULL)
+			else
 			{
-				puts("file next");
-				files->next->prev = files->prev;
-			}
-			if (files->prev != NULL)
-			{
-				puts("file prev");
-				files->prev->next = files->next;
+				prev = head;
+				while(prev->next != files)
+					prev = prev->next;	
+				prev->next = chc;
 			}
 			files->next = NULL;
-			files->prev =  NULL;
 			if (!arg)
-			{
-				puts("1 arg");
 				arg = files;
-			}
 			else if (arg)
 			{
-				puts("arg->next");
 				tmp = arg;
 				while(tmp->next)
 					tmp = tmp->next;
@@ -47,8 +38,11 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 		}
 		files = chc;
 	}
-	if (!stage)
+	if (!stage && arg)
+	{
+		arg = ft_sorting(arg, key);
 		ft_print_files(arg, key);
+	}
 //	if (stage)
 //		ft_print_files(arg, key);
 		

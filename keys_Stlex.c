@@ -28,7 +28,7 @@ t_req	*key_S_size(t_req *fls)
 		fls = ft_shift_size(fls);
 	return (fls);
 }
-
+/*
 t_req	*key_t_time(t_req *fls)
 {
 
@@ -44,7 +44,7 @@ t_req	*key_t_time(t_req *fls)
 	}
 	return (fls);
 }
-
+*/
 t_req	*ft_shift_lex(t_req *lst)
 {
 	t_req	*r;
