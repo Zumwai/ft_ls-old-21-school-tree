@@ -31,15 +31,6 @@ int	len_num(int n)
 	return (len);
 }
 
-int		ft_MAX(int a, int b)
-{
-	if (a > b)
-		return (a);
-	if (a < b)
-		return (b);
-		return (a);
-}
-
 static int	ft_calc_padding(t_req *fls, int size[6], u_keys key)
 {
 	int	len;
@@ -47,13 +38,13 @@ static int	ft_calc_padding(t_req *fls, int size[6], u_keys key)
 	while (fls)
 	{
 		if (key.i)		
-			size[0] = ft_MAX(len_num(fls->inode), size[0]);
+			size[0] = MAX(len_num(fls->inode), size[0]);
 		if (key.s)
-			size[1] = ft_MAX(len_num(fls->block), size[1]);
-		size[2] = ft_MAX(len_num(fls->num_link), size[2]);
-		size[3] = ft_MAX(ft_strlen(getpwuid(fls->own_uid)->pw_name), size[3]);		//LIB FUNC
-		size[4] = ft_MAX(ft_strlen(getgrgid(fls->grp_gid)->gr_name), size[4]);		//LIB FUNC
-		size[5] = ft_MAX(len_num(fls->size), size[5]);
+			size[1] = MAX(len_num(fls->block), size[1]);
+		size[2] = MAX(len_num(fls->num_link), size[2]);
+		size[3] = MAX(ft_strlen(getpwuid(fls->own_uid)->pw_name), size[3]);		//LIB FUNC
+		size[4] = MAX(ft_strlen(getgrgid(fls->grp_gid)->gr_name), size[4]);		//LIB FUNC
+		size[5] = MAX(len_num(fls->size), size[5]);
 		fls = fls->next;
 	}
 	return (0);
@@ -110,13 +101,22 @@ void	print_key_is(t_req *fls, int size[6], int i, int s)
 		ft_putchar(' ');
 	}
 }
-	
+
+void	print_time(char *str)
+{
+	int i;
+
+	i = 4;
+	while(i < 16)
+		write(1, &str[i++], 1);
+}
 		
 void	ft_key_l(t_req *lst, u_keys key)
 {
 	int	size[6];
 	char	perm[11];
 	char	buf[NAME_MAX];
+	char	*teatime;
 
 	size[0] = 0;
 	size[1] = 0;
@@ -132,8 +132,10 @@ void	ft_key_l(t_req *lst, u_keys key)
 			print_key_is(lst, size, key.i, key.s);
 		ft_ACL(lst->mode, lst->path, perm);
 		ft_printer(lst, size, key.g);
-
-		printf("  %ld  ", lst->mtime);
+		teatime = ctime(&lst->mtime);
+		//printf("  %s  ", teatime);
+		print_time(teatime);
+		ft_putchar(' ');
 		ft_putstr(lst->name);
 		if (perm[0] == 'l')
 		{
