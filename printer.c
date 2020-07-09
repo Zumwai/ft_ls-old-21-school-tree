@@ -105,6 +105,9 @@ void	print_key_is(t_req *fls, int size[6], int i, int s)
 void	print_time(char *str)
 {
 	int i;
+	time_t	curr;
+
+
 
 	i = 4;
 	while(i < 16)
