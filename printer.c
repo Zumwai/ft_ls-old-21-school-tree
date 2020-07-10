@@ -1,5 +1,5 @@
 #include "ft_ls.h"
-
+/*
 void	ft_column_y(t_req *lst, u_keys key)
 {
 	while(lst)
@@ -17,7 +17,7 @@ void	ft_column_y(t_req *lst, u_keys key)
 	}
 	ft_putchar('\n');
 }
-
+*/
 int	len_num(int n)
 {
 	int	len;
@@ -26,7 +26,7 @@ int	len_num(int n)
 	while (n / 10)
 	{
 		n /= 10;
-		++len;
+		len++;
 	}
 	return (len);
 }
@@ -102,16 +102,30 @@ void	print_key_is(t_req *fls, int size[6], int i, int s)
 	}
 }
 
-void	print_time(char *str)
+void	print_time(char *str, long long clock)
 {
 	int i;
 	time_t	curr;
+	long long	tmp;
 
-
-
-	i = 4;
-	while(i < 16)
-		write(1, &str[i++], 1);
+	curr = time(&curr);
+	tmp = curr - clock;
+	if (ABS(tmp) > 15768000)
+	{
+		i = 4;
+		while(i < 10)
+			write(1, &str[i++], 1);
+		i = 19;
+		ft_putchar(' ');
+		while(i < 24)
+			write(1, &str[i++], 1);
+	}
+	else
+	{
+		i = 4;
+		while(i < 16)
+			write(1, &str[i++], 1);
+	}
 }
 		
 void	ft_key_l(t_req *lst, u_keys key)
@@ -119,7 +133,6 @@ void	ft_key_l(t_req *lst, u_keys key)
 	int	size[6];
 	char	perm[11];
 	char	buf[NAME_MAX];
-	char	*teatime;
 
 	size[0] = 0;
 	size[1] = 0;
@@ -135,9 +148,11 @@ void	ft_key_l(t_req *lst, u_keys key)
 			print_key_is(lst, size, key.i, key.s);
 		ft_ACL(lst->mode, lst->path, perm);
 		ft_printer(lst, size, key.g);
-		teatime = ctime(&lst->mtime);
-		//printf("  %s  ", teatime);
-		print_time(teatime);
+		ft_putchar(' ');
+	//	ft_putnbr (lst->mtime);
+		ft_putchar(' ');
+		//printf("  %ld  ", lstI->mtime);
+		print_time(ctime(&lst->mtime), lst->mtime);
 		ft_putchar(' ');
 		ft_putstr(lst->name);
 		if (perm[0] == 'l')

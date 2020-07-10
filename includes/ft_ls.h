@@ -19,6 +19,7 @@
 
 # define OPTIONS ("RalrtugfdiUs1xSA")
 # define MAX(a, b)	b & ((a - b) >> 31) | a & (~(a - b) >> 31)
+# define ABS(a)		(a ^ (a >> 31)) - (a >> 31)
 
 typedef struct stat t_stat;
 
@@ -76,7 +77,7 @@ t_req		*swap_nodes(t_req *node1, t_req *node2);
 t_req		*ft_shift_lex(t_req *lst);
 int		ft_check_dots(const char *s1);
 t_req		*ft_print_files(t_req *lst, u_keys key);
-
+int		len_num(int n);
 
 int		ft_summ_blocksize(t_req *fls);
 t_req		*ft_sorting(t_req *lst, u_keys key);

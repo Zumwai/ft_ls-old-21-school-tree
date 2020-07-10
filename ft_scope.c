@@ -90,10 +90,19 @@ t_req	*ft_distributer(t_req *lst, u_keys key, int stage)
 	while(lst)
 	{
 		if(key.R == 0)
+		{
+	//		ft_putstr(lst->name);
+	//		ft_putstr(":\n");
 			printf("%s:\n", lst->name);
+		}
 		else
+		{	
 			printf("%s:\n", lst->path);
+	//		ft_putstr(lst->path);
+	//		ft_putstr(":\n");
+		}
 		lst->right = ft_print_files(lst->right, key);
+		ft_putchar('\n');
 		if (key.R)
 			lst->right = ft_distributer(lst->right, key, 1);
 		lst = lst->next;
