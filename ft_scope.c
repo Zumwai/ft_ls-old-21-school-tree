@@ -67,7 +67,7 @@ t_req	*ft_print_files(t_req *lst, u_keys key)
 	if(key.s || key.l)
 		ft_summ_blocksize(lst);
 	head = lst;
-	if (key.l == 0&& key.g == 0)
+	if (key.l == 0 && key.g == 0)
 		ft_column_y(lst, key);
 	else
 		ft_key_l(lst, key);
