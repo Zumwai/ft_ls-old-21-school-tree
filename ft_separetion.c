@@ -49,3 +49,51 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 //	puts("end separation");	
 	return (head);
 }
+int	len_num(int n)
+{
+	int	len;
+
+	len = 1;
+	while (n / 10)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
+
+void	ft_zero(int *arr, int i)
+{
+	int k;
+	
+	k = 0;
+	while(k < i)
+		arr[k++] = 0;
+}
+
+void	ft_pw_uid(struct passwd *data, int size)
+{
+	int	len;
+
+	if(!data)
+	{
+		len = size;
+		while(len-- > 0)
+			ft_putchar(' ');
+	}
+	else if(data->pw_name)
+	{
+		len = ft_strlen(data->pw_name);
+		while (size > len++)
+			ft_putchar(' ');
+		ft_putstr(data->pw_name);
+	}
+	else
+	{
+		len = len_num(data->pw_uid);
+		while (size > len++)
+			ft_putchar(' ');
+		ft_putnbr(data->pw_uid);
+	}
+}
+			

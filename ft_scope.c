@@ -119,7 +119,7 @@ t_req	*ft_distributer(t_req *lst, u_keys key, int stage)
 				lst->right = ft_distributer(lst->right, key, 1);
 		}
 		else if (flag == 2)
-			puts ("perm den");
+			ft_err(10, lst->name);
 		lst = lst->next;
 	}	
 	return (tmp);

@@ -18,22 +18,13 @@ void	ft_column_y(t_req *lst, u_keys key)
 	ft_putchar('\n');
 }
 */
-int	len_num(int n)
-{
-	int	len;
-
-	len = 1;
-	while (n / 10)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
-}
 
 static int	ft_calc_padding(t_req *fls, int size[6], u_keys key)
 {
-	int	len;
+	int		len;
+	int		tmp;
+	struct passwd	*uid;
+	struct group	*gid;
 
 	while (fls)
 	{
@@ -42,8 +33,30 @@ static int	ft_calc_padding(t_req *fls, int size[6], u_keys key)
 		if (key.s)
 			size[1] = MAX(len_num(fls->block), size[1]);
 		size[2] = MAX(len_num(fls->num_link), size[2]);
-		size[3] = MAX(ft_strlen(getpwuid(fls->own_uid)->pw_name), size[3]);		//LIB FUNC
-		size[4] = MAX(ft_strlen(getgrgid(fls->grp_gid)->gr_name), size[4]);		//LIB FUNC
+		if((uid = getpwuid(fls->own_uid)) != NULL)
+		{
+			if (uid->pw_name != NULL)
+			{
+				size[3] = MAX(ft_strlen(getpwuid(fls->own_uid)->pw_name), size[3]);
+			//	free(uid->pw_name);
+			}
+			else
+				size[3] = MAX(len_num(uid->pw_uid), size[3]);
+			//free(uid);
+			//id = NULL;
+		}
+		if((gid = getgrgid(fls->grp_gid)) != NULL)
+		{
+			if (gid->gr_name != NULL)
+			{
+				size[4] = MAX(ft_strlen(gid->gr_name), size[4]);
+			//	free(gid->gr_name);
+			}
+			else
+				size[4] = MAX(len_num(gid->gr_gid), size[4]);
+			//free(gid);
+		//	gid = NULL;
+		}
 		size[5] = MAX(len_num(fls->size), size[5]);
 		fls = fls->next;
 	}
@@ -62,10 +75,11 @@ static void	ft_printer(t_req *fls, int size[6], int g)
 	ft_putchar(' ');
 	if (!g)
 	{
-		len = ft_strlen(getpwuid(fls->own_uid)->pw_name);
-		while (size[3] > len++)
-			ft_putchar(' ');
-		ft_putstr(getpwuid(fls->own_uid)->pw_name);
+			ft_pw_uid(getpwuid(fls->own_uid), size[3]);
+	//	len = ft_strlen(getpwuid(fls->own_uid)->pw_name);
+	//	while (size[3] > len++)
+	//		ft_putchar(' ');
+	//	ft_putstr(getpwuid(fls->own_uid)->pw_name);
 		ft_putchar(' ');
 	}
 	len = ft_strlen(getgrgid(fls->grp_gid)->gr_name);
@@ -134,12 +148,7 @@ void	ft_key_l(t_req *lst, u_keys key)
 	char	perm[11];
 	char	buf[NAME_MAX];
 
-	size[0] = 0;
-	size[1] = 0;
-	size[2] = 0;	
-	size[3] = 0;
-	size[4] = 0;
-	size[5] = 0;
+	ft_zero(size, 6);
 	ft_bzero(perm, 11);
 	ft_calc_padding(lst, size, key);
 	while (lst)
@@ -148,10 +157,7 @@ void	ft_key_l(t_req *lst, u_keys key)
 			print_key_is(lst, size, key.i, key.s);
 		ft_ACL(lst->mode, lst->path, perm);
 		ft_printer(lst, size, key.g);
-		ft_putchar(' ');
-	//	ft_putnbr (lst->mtime);
-		ft_putchar(' ');
-		//printf("  %ld  ", lstI->mtime);
+		ft_putstr("  ");
 		print_time(ctime(&lst->mtime), lst->mtime);
 		ft_putchar(' ');
 		ft_putstr(lst->name);

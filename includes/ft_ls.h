@@ -80,7 +80,7 @@ t_req		*ft_shift_lex(t_req *lst);
 int		ft_check_dots(const char *s1);
 t_req		*ft_print_files(t_req *lst, u_keys key);
 int		len_num(int n);
-
+void		ft_zero(int *arr, int i);
 int		ft_summ_blocksize(t_req *fls);
 t_req		*ft_sorting(t_req *lst, u_keys key);
 t_req		*key_u_access(t_req *fls);
@@ -93,4 +93,5 @@ void		bubble_time(t_req *fls);
 void		ft_key_l(t_req *fls, u_keys key);
 void		ft_column_y(t_req *lst, u_keys key);
 void		ft_ACL(int mode, char path[PATH_MAX], char str[11]);
+void		ft_pw_uid(struct passwd *data, int size);
 #endif

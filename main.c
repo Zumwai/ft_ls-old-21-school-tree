@@ -13,14 +13,12 @@ int	main(int ac, char **av)
 	key = ft_looker(av, ac, &i);
 	files = fill_list(&av[i], ac - i);	
 	ft_parse_av(files, key, ac - i, 2);
-	/*
 	if (key.d)
 	{
 		files = ft_sorting(files, key);
 		ft_print_files(files, key);
 		return (0);
 	}
-	*/
 	ft_distributer(files, key, 0);
 	return (0);
 }

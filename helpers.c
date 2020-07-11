@@ -29,7 +29,9 @@ int	ft_summ_blocksize(t_req *fls)
 		total +=fls->block;
 		fls = fls->next;
 	}
-	printf("total %d\n", total);
+	ft_putstr("total ");
+	ft_putnbr(total);
+	ft_putchar('\n');
 	return (total);
 }
 
