@@ -71,29 +71,43 @@ void	ft_zero(int *arr, int i)
 		arr[k++] = 0;
 }
 
-void	ft_pw_uid(struct passwd *data, int size)
+void	ft_pw_uid(struct passwd *data, int size, unsigned int num)
 {
 	int	len;
 
 	if(!data)
 	{
 		len = size;
-		while(len-- > 0)
+		ft_putnbr(num);
+		while(size > len++)
 			ft_putchar(' ');
-	}
-	else if(data->pw_name)
-	{
-		len = ft_strlen(data->pw_name);
-		while (size > len++)
-			ft_putchar(' ');
-		ft_putstr(data->pw_name);
 	}
 	else
 	{
-		len = len_num(data->pw_uid);
+		len = ft_strlen(data->pw_name);
+		ft_putstr(data->pw_name);
 		while (size > len++)
 			ft_putchar(' ');
-		ft_putnbr(data->pw_uid);
+	}
+}
+
+void	ft_gr_gid(struct group *data, int size, unsigned int num)
+{
+	int	len;
+
+	if (!data)
+	{
+		len = size;
+		ft_putnbr(num);
+		while(size > len++)
+			ft_putchar(' ');
+	}
+	else
+	{
+		len = ft_strlen(data->gr_name);
+		ft_putstr(data->gr_name);
+		while (size > len++)
+			ft_putchar(' ');
 	}
 }
 			

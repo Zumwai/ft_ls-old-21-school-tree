@@ -93,5 +93,6 @@ void		bubble_time(t_req *fls);
 void		ft_key_l(t_req *fls, u_keys key);
 void		ft_column_y(t_req *lst, u_keys key);
 void		ft_ACL(int mode, char path[PATH_MAX], char str[11]);
-void		ft_pw_uid(struct passwd *data, int size);
+void		ft_pw_uid(struct passwd *data, int size, unsigned int num);
+void		ft_gr_gid(struct group *data, int size, unsigned int num);
 #endif

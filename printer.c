@@ -36,27 +36,17 @@ static int	ft_calc_padding(t_req *fls, int size[6], u_keys key)
 		if((uid = getpwuid(fls->own_uid)) != NULL)
 		{
 			if (uid->pw_name != NULL)
-			{
 				size[3] = MAX(ft_strlen(getpwuid(fls->own_uid)->pw_name), size[3]);
-			//	free(uid->pw_name);
-			}
-			else
-				size[3] = MAX(len_num(uid->pw_uid), size[3]);
-			//free(uid);
-			//id = NULL;
 		}
+		else
+			size[3] = MAX(len_num(fls->own_uid), size[3]);
 		if((gid = getgrgid(fls->grp_gid)) != NULL)
 		{
 			if (gid->gr_name != NULL)
-			{
 				size[4] = MAX(ft_strlen(gid->gr_name), size[4]);
-			//	free(gid->gr_name);
-			}
-			else
-				size[4] = MAX(len_num(gid->gr_gid), size[4]);
-			//free(gid);
-		//	gid = NULL;
 		}
+		else
+			size[4] = MAX(len_num(fls->grp_gid), size[4]);
 		size[5] = MAX(len_num(fls->size), size[5]);
 		fls = fls->next;
 	}
@@ -75,17 +65,10 @@ static void	ft_printer(t_req *fls, int size[6], int g)
 	ft_putchar(' ');
 	if (!g)
 	{
-			ft_pw_uid(getpwuid(fls->own_uid), size[3]);
-	//	len = ft_strlen(getpwuid(fls->own_uid)->pw_name);
-	//	while (size[3] > len++)
-	//		ft_putchar(' ');
-	//	ft_putstr(getpwuid(fls->own_uid)->pw_name);
+		ft_pw_uid(getpwuid(fls->own_uid), size[3], fls->own_uid);
 		ft_putchar(' ');
 	}
-	len = ft_strlen(getgrgid(fls->grp_gid)->gr_name);
-	while (size[4] > len++)
-		ft_putchar(' ');
-	ft_putstr(getgrgid(fls->grp_gid)->gr_name);
+	ft_gr_gid(getgrgid(fls->grp_gid), size[4], fls->grp_gid);
 	ft_putchar (' ');
 	len = len_num(fls->size);
 	while (size[5] > len++)
