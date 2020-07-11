@@ -25,6 +25,7 @@ static t_req	*read_inside(char path[PATH_MAX], char *name, u_keys key)
 			add_file(path, insider->d_name, &head);
 		else if (insider->d_name[0] != '.')
 			add_file(path, insider->d_name, &head);
+		printf("%s - readdir return\n", insider->d_name);
 	}
 	closedir(fold);
 	return (head);
@@ -57,7 +58,10 @@ t_req	*ft_parse_av(t_req *files, u_keys key, int ac, int c)
 		{
 			curs->right = read_inside(curs->path, curs->name, key);
 			if(key.R & 1)
+			{
+				puts("enter the sadrecurman");
 				ft_parse_av(curs->right, key, ac, 0);
+				}
 	//		if(curs->right)
 	//			TEST_print(curs->right);	
 		}
