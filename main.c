@@ -17,6 +17,11 @@ int	main(int ac, char **av)
 	if (key.d)
 		ft_print_files(files, key);
 	else
-		ft_distributer(files, key, 0);
+		files = ft_distributer(files, key, 0);
+	while(files)
+	{
+		ft_putstr(files->name);
+		files = files->next;
+	}
 	return (0);
 }

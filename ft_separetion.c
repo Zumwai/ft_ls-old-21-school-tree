@@ -1,13 +1,32 @@
 #include "ft_ls.h"
 
-static void	ft_stage(t_req *arg, int *stage, u_keys key)
+static void	free_remainder(t_req *arg)
 {
-	if (*stage == 0 && arg)
+	t_req	*tmp;
+
+	tmp = arg;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		arg = tmp;
+		free(arg->name);
+		arg->next = NULL;
+		free(arg);
+		arg = NULL;
+	}
+}
+
+	
+
+static void	ft_stage(t_req *arg, int **stage, u_keys key)
+{
+	if (**stage == 0 && arg)
 	{
 		arg = ft_sorting(arg, key);
 		ft_print_files(arg, key);
-		(*stage) = 1;
+		(**stage) = 1;
 	}
+
 }
 
 static t_req	*ft_delimeter(t_req **files, t_req **head, t_req *prev)
@@ -37,7 +56,7 @@ static t_req	*ft_sep_files(t_req **head, t_req **fls)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = (*fls);
-		tmp->next->next = NULL;
+	//	tmp->next->next = NULL;
 	return (*head);
 }
 		
@@ -58,10 +77,19 @@ t_req	*handle_nodir(t_req *files, u_keys key, int *stage)
 		if (!S_ISDIR(files->mode))
 		{
 			files = ft_delimeter(&files, &head, prev);
-			arg = ft_sep_files(&arg, &files);
+		//	arg = ft_sep_files(&arg, &files);
+			if (!arg)
+				arg = files;
+			else if (arg)
+			{
+				tmp = arg;
+				while (tmp->next)
+					tmp = tmp->next;
+				tmp->next = files;
+			}
 		}
 		files = chc;
 	}
-	ft_stage(arg, stage, key);
+	ft_stage(arg, &stage, key);
 	return (head);
 }

@@ -117,7 +117,7 @@ t_req	*ft_distributer(t_req *lst, u_keys key, int stage)
 			lst->right = ft_print_files(lst->right, key);
 			ft_putchar('\n');
 			if (key.R)
-				lst->right = ft_distributer(lst->right, key, 1);
+				ft_distributer(lst->right, key, 1);
 		}
 		else if (flag == 2)
 			ft_err(10, lst->name);
