@@ -11,6 +11,7 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 	head = files;
 	prev = files;
 	arg = NULL;
+//	puts("begin separation");
 	while (files)
 	{
 		chc = files->next;
@@ -45,6 +46,6 @@ t_req	*handle_nodir(t_req *files, u_keys key, int stage)
 	}
 //	if (stage)
 //		ft_print_files(arg, key);
-		
+//	puts("end separation");	
 	return (head);
 }

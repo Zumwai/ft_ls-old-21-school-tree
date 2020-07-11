@@ -1,5 +1,5 @@
 #include "ft_ls.h"
-
+/*
 static void	ft_free_lst(t_req *lst)
 {
 	if (lst->next != NULL)
@@ -7,7 +7,7 @@ static void	ft_free_lst(t_req *lst)
 	free(lst);
 	lst=NULL;
 }
-
+*/
 static t_req	*read_inside(char path[PATH_MAX], char *name, u_keys key)
 {
 	DIR		*fold;
@@ -16,7 +16,11 @@ static t_req	*read_inside(char path[PATH_MAX], char *name, u_keys key)
 
 	head = NULL;
 	if (!(fold = opendir(path)))
-		ft_err(8);
+	{
+		if(errno == 13)
+			return (NULL);
+		ft_err(8, path);
+	}
 	while ((insider = readdir(fold)))
 	{
 		if (key.a == 1)
@@ -25,12 +29,11 @@ static t_req	*read_inside(char path[PATH_MAX], char *name, u_keys key)
 			add_file(path, insider->d_name, &head);
 		else if (insider->d_name[0] != '.')
 			add_file(path, insider->d_name, &head);
-		printf("%s - readdir return\n", insider->d_name);
 	}
 	closedir(fold);
 	return (head);
 }
-
+/*
 static	void TEST_print(t_req *lst)
 {
 	t_req	*curs;
@@ -45,7 +48,7 @@ static	void TEST_print(t_req *lst)
 	}
 //	ft_free_lst(lst);
 }
-
+*/
 t_req	*ft_parse_av(t_req *files, u_keys key, int ac, int c)
 {
 	t_req	*curs;
@@ -57,13 +60,16 @@ t_req	*ft_parse_av(t_req *files, u_keys key, int ac, int c)
 		if (S_ISDIR(curs->mode) && (c || !ft_check_dots(curs->name)))
 		{
 			curs->right = read_inside(curs->path, curs->name, key);
-			if(key.R & 1)
-			{
-				puts("enter the sadrecurman");
+			//ft_distributer(curs->right, key, 0);
+		//	puts("curs->right");
+			if(curs->right && key.R & 1)
+		//	&& (S_IRUSR & curs->right->mode) && (S_IXUSR & curs->right->mode))
 				ft_parse_av(curs->right, key, ac, 0);
-				}
-	//		if(curs->right)
-	//			TEST_print(curs->right);	
+		//	if (key.R)
+		//		ft_parse_av(curs->right, key, ac, 0);
+	
+		//	if(curs->right)
+		//		TEST_print(curs->right);	
 		}
 		curs = curs->next;
 	}

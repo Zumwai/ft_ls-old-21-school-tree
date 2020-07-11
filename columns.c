@@ -47,7 +47,7 @@ void	ft_show_name(t_req *fls, u_keys key, int max[4], int col)
 			ft_putchar(' ');
 		ft_putnbr(fls->block);
 		ft_putchar(' ');
-	}	
+	}
 	ft_putstr(fls->name);
 	check = MAX((max[0] - ft_strlen(fls->name) - len_s - len_i), 0);
 	if (col)
@@ -130,7 +130,7 @@ void	ft_column_y(t_req *fls, u_keys key)
 	}
 	if (!key.k_1)
 		coor[1] = (coor[1] % coor[0] ? 1 : 0) + coor[1] / coor[0];
-	printf("\n%d - maxlen[0], %d - coor [0], %d - coor[1]\n", max[0], coor[0], coor[1]);
+//	printf("\n%d - maxlen[0], %d - coor [0], %d - coor[1]\n", max[0], coor[0], coor[1]);
 	if (!key.x)
 		ft_print_y_col(fls, key, max, coor);
 	else

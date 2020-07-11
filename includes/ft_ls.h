@@ -17,6 +17,7 @@
 # include <grp.h>
 # include <sys/ioctl.h>
 # include "libft.h"
+# include <errno.h>
 
 # define OPTIONS ("RalrtugfdiUs1xSA")
 # define MAX(a, b)	b & ((a - b) >> 31) | a & (~(a - b) >> 31)
@@ -67,7 +68,7 @@ typedef struct		s_req
 	struct s_req	*right;
 }			t_req;
 
-void		ft_err(int i);
+void		ft_err(int i, char *av);
 u_keys		ft_looker(char **const av, int const ac, int *c);
 t_req		*fill_list(char **av, int ac);
 t_req		*ft_parse_av(t_req *files, u_keys key, int ac, int c);

@@ -15,7 +15,7 @@ static int	map_path(char path[PATH_MAX], char *name, char full_path[PATH_MAX])
 	if (i < PATH_MAX)
 		full_path[i] = '\0';
 	else
-		ft_err(7);
+		ft_err(7, "Path name too long");
 	return ((i < PATH_MAX) ? 1 : 0);
 }
 
@@ -25,10 +25,9 @@ static t_req	*new_entry(char *name, t_stat *stat, char path[PATH_MAX])
 {
 	t_req	*new;
 
-
 	if (!(new = (t_req *)malloc(sizeof(t_req)))
-	|| (!(new->name = strdup(name))))			/////STRDUP FROM LIBRARY
-		ft_err(6);
+	|| (!(new->name = ft_strdup(name))))
+		ft_err(6, name);
 	new->mode = stat->st_mode;
 	new->num_link = stat->st_nlink;
 	new->size = stat->st_size;
@@ -53,8 +52,8 @@ int	add_file(char path[PATH_MAX], char *name, t_req **head)
 	t_stat	stat;
 
 	if (!(map_path(path, name, full_path)))
-		ft_err(7);
-	if (lstat(full_path, &stat) == -1)
+		ft_err(7, "Path name too long");
+	if (lstat(full_path, &stat))
 		return (0);
 	if (!*head)
 		*head = new_entry(name, &stat, path);
@@ -82,7 +81,7 @@ t_req	*fill_list(char	**av, int ac)
 			flag = 1;
 		else if((av[i][0] != '-' && flag == 0) || flag == 1)
 			if (!(add_file("", av[i], &head)))
-				ft_err(5);
+				ft_err(5, av[i]);
 		i++;
 	}
 	if (!head)

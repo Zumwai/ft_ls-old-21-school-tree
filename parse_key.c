@@ -98,16 +98,13 @@ u_keys	ft_looker(char **const av, int const ac, int *c)
 		if (av[i][0] != '-')
 			return (key);
 		if (av[i][0] == '-' && av[i][1] == '-' && !av[i][2])
-		{
-		//	*c += 1;
 			return (key);
-		}
 		else if (av[i][0] == '-' && av[i][1] == '-' && av[i][2])
-			ft_err(4);
+			ft_err(4, av[i]);
 		else if (av[i][0] == '-' && av[i][1])
 		{
 			if(!(ft_check_key(&key, av[i])))
-				ft_err(3);
+				ft_err(3, av[i]);
 			else
 				*c += 1;
 		}
