@@ -104,12 +104,13 @@ t_req	*ft_distributer(t_req *lst, u_keys key, int stage)
 	t_req	*tmp;
 	int	flag;
 
-	lst = handle_nodir(lst, key, stage);
+	lst = handle_nodir(lst, key, &stage);
 	lst = ft_sorting(lst, key);
 	tmp = lst;
 	while(lst)
 	{
-		ft_print_dir(lst, key);
+		if (stage == 1)
+			ft_print_dir(lst, key);
 		flag = ft_perm_check(lst);
 		if (!flag)
 		{

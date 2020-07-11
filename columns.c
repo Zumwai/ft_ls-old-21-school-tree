@@ -111,14 +111,10 @@ void	ft_column_y(t_req *fls, u_keys key)
 	if (!fls)
 		return ;
 	ioctl(0, TIOCGWINSZ, &win);
-	max[0] = 0;
-	max[1] = 0;
-	max[2] = 0;
-	max[3] = 0;
+	ft_zero(max, 4);
 	ft_find_max(fls, key, max);
-//	printf("\n%d - max[0], %d - max[1], %d - max[2], %d - max[3]\n", max[0], max[1], max[2], max[3]);
 	if (max[0])
-		coor[0] = win.ws_col / max[0];
+		coor[0] = (win.ws_col / max[0]) + 1;
 	else
 		coor[0] = 0;
 	tmp = fls;
@@ -129,8 +125,10 @@ void	ft_column_y(t_req *fls, u_keys key)
 		tmp = tmp->next;
 	}
 	if (!key.k_1)
+	{
 		coor[1] = (coor[1] % coor[0] ? 1 : 0) + coor[1] / coor[0];
-//	printf("\n%d - maxlen[0], %d - coor [0], %d - coor[1]\n", max[0], coor[0], coor[1]);
+		coor[0] -= 1;
+	}
 	if (!key.x)
 		ft_print_y_col(fls, key, max, coor);
 	else

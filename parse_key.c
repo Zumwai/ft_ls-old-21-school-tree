@@ -74,7 +74,7 @@ static int	ft_check_key(u_keys *key, char *av)
 	{
 		res = ft_char_comp(av[i], OPTIONS);
 		if (res < 0)
-			return (0); 	//error exit no such key
+			ft_err(3, av);
 		else
 			*key = ft_toggler(key, res);
 		i++;
