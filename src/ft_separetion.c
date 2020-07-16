@@ -6,7 +6,7 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 13:34:57 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 13:28:25 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 12:48:07 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static t_req	*ft_add_arg(t_req **arg, t_req **fls)
 {
 	t_req	*tmp;
-	
+
 	tmp = (*arg);
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = (*fls);
 	return (*arg);
 }
 
-static void	ft_stage(t_req *arg, int **stage, u_keys key)
+static void		ft_stage(t_req *arg, int **stage, int key)
 {
 	t_req	*head;
 
@@ -63,7 +63,7 @@ static t_req	*ft_delimeter(t_req **files, t_req **head)
 	return (*files);
 }
 
-static int	ft_bs(char *name)
+static int		ft_dot(char *name)
 {
 	if (name[0] == '.' && name[1] == '\0')
 		return (1);
@@ -72,7 +72,7 @@ static int	ft_bs(char *name)
 	return (0);
 }
 
-t_req	*handle_nodir(t_req *files, u_keys key, int *stage)
+t_req			*handle_nodir(t_req *files, int key, int *stage)
 {
 	t_req	*head;
 	t_req	*arg;
@@ -83,7 +83,7 @@ t_req	*handle_nodir(t_req *files, u_keys key, int *stage)
 	while (files)
 	{
 		tmp = files->next;
-		if (!S_ISDIR(files->mode) || (ft_bs(files->name)
+		if (!S_ISDIR(files->mode) || (ft_dot(files->name)
 		&& !(*stage == 0 || *stage == 4)))
 		{
 			files = ft_delimeter(&files, &head);

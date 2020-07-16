@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keys_urU.c                                         :+:      :+:    :+:   */
+/*   key_uru.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 13:58:57 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/14 19:28:52 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 11:29:58 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_req	*key_r_reverse(t_req *fls)
+t_req			*key_r_reverse(t_req *fls)
 {
 	t_req	*foll;
 	t_req	*curr;
@@ -21,7 +21,7 @@ t_req	*key_r_reverse(t_req *fls)
 	prev = NULL;
 	foll = fls;
 	curr = fls;
-	while(curr)
+	while (curr)
 	{
 		foll = foll->next;
 		curr->next = prev;
@@ -50,7 +50,7 @@ static t_req	*ft_shift_atime(t_req *fls)
 	return (head);
 }
 
-t_req	*key_u_access(t_req *fls)
+t_req			*key_u_access(t_req *fls)
 {
 	if (!fls)
 		return (NULL);
@@ -60,7 +60,7 @@ t_req	*key_u_access(t_req *fls)
 	return (fls);
 }
 
-static	t_req	*ft_shift_birth(t_req	*fls)
+static	t_req	*ft_shift_birth(t_req *fls)
 {
 	t_req	*r;
 	t_req	*l;
@@ -69,7 +69,7 @@ static	t_req	*ft_shift_birth(t_req	*fls)
 	l = fls;
 	r = fls->next;
 	head = r;
-	while(r != NULL && fls->btime < r->btime)
+	while (r != NULL && fls->btime < r->btime)
 	{
 		l = r;
 		r = r->next;
@@ -79,12 +79,11 @@ static	t_req	*ft_shift_birth(t_req	*fls)
 	return (head);
 }
 
-
-t_req	*key_U_birth(t_req *fls)
+t_req			*key_birth(t_req *fls)
 {
 	if (!fls)
 		return (NULL);
-	fls->next = key_U_birth(fls->next);
+	fls->next = key_birth(fls->next);
 	if (fls->next != NULL && fls->btime < fls->next->btime)
 		fls = ft_shift_birth(fls);
 	return (fls);

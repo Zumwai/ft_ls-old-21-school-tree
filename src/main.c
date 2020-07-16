@@ -6,7 +6,7 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 10:43:43 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 16:00:24 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 13:30:26 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	ft_free_sky(t_req *head)
 	}
 }
 
-int	main(int ac, char **av)
+int		main(int ac, char **av)
 {
-	u_keys	key;	
 	t_req	*files;
 	t_req	*head;
-	int	i;
-	int	stage;
+	int		key;
+	int		stage;
+	int		i;
 
 	i = 0;
 	stage = 0;
@@ -43,9 +43,9 @@ int	main(int ac, char **av)
 	if (ac > ARG_MAX)
 		ft_err(2, "ARG_MAX");
 	key = ft_looker(av, ac, &i);
-	files = fill_list(&av[i], key.f, &stage);
+	files = fill_list(&av[i], key, &stage);
 	ft_parse_av(files, key, ac - i, 2);
-	if (key.d)
+	if (key & K_D)
 		ft_print_files(files, key);
 	else
 		files = ft_distributer(files, key, stage);

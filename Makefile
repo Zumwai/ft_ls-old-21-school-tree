@@ -20,17 +20,19 @@ SOUS_FIL = main.c \
 		   helpers.c \
 		   info_list.c \
 		   key_t_time.c \
-		   keys_Stlex.c \
-		   keys_urU.c \
+		   key_stlex.c \
+		   key_uru.c \
 		   misc.c \
 		   parse_key.c \
 		   printer.c \
-		   reader.c
+		   reader.c	\
+		   ft_calc.c
 OBJS = $(SOUS_FIL:.c=.o)
 SOUS_F = $(addprefix $(SOUS), $(SOUS_FIL))
 OBJS_F = $(addprefix $(BIN), $(OBJS))
 BIN = ./bin/
-TRASH = ft_ls.h.gch
+TRASH = ft_ls.h.gch \
+		ft_ls.dSYM
 FLAGS = -Wall -Wextra -Werror
 REMOVE = rm -rf
 

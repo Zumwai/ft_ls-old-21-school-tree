@@ -6,13 +6,13 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/11 12:25:31 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 19:28:31 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 13:51:26 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	len_num(int n)
+int		len_num(int n)
 {
 	int	len;
 
@@ -28,9 +28,9 @@ int	len_num(int n)
 void	ft_zero(int *arr, int i)
 {
 	int k;
-	
+
 	k = 0;
-	while(k < i)
+	while (k < i)
 		arr[k++] = 0;
 }
 
@@ -38,7 +38,7 @@ void	ft_pw_uid(struct passwd *data, int size, unsigned int num)
 {
 	int	len;
 
-	if(!data)
+	if (!data)
 	{
 		len = len_num(num);
 		ft_putnbr(num);
@@ -48,7 +48,7 @@ void	ft_pw_uid(struct passwd *data, int size, unsigned int num)
 		len = ft_strlen(data->pw_name);
 		ft_putstr(data->pw_name);
 	}
-	while(size > len++)
+	while (size > len++)
 		ft_putchar(' ');
 }
 
@@ -68,4 +68,4 @@ void	ft_gr_gid(struct group *data, int size, unsigned int num)
 	}
 	while (size > len++)
 		ft_putchar(' ');
-}		
+}

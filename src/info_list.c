@@ -6,32 +6,30 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 11:08:01 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 22:28:11 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 12:56:12 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	map_path(char path[PATH_MAX], char *name, char full_path[PATH_MAX])
+static int		map_path(char path[PATH_MAX], char *name, char full[PATH_MAX])
 {
 	int	i;
 
 	i = -1;
-	while(path[++i])
-		full_path[i]=path[i];
+	while (path[++i])
+		full[i] = path[i];
 	if (i && i < PATH_MAX)
 		if (!(path[0] == '/' && path[1] == '\0'))
-			full_path[i++] = '/';
+			full[i++] = '/';
 	while (*name && i < PATH_MAX)
-		full_path[i++] = *name++;
-	if (i < PATH_MAX)
-		full_path[i] = '\0';
-	else
+		full[i++] = *name++;
+	if (i >= PATH_MAX)
 		ft_err(7, "Path name too long");
-	return ((i < PATH_MAX) ? 1 : 0);
+	else
+		full[i] = '\0';
+	return (0);
 }
-
-
 
 static t_req	*new_entry(char *name, t_stat *stat, char path[PATH_MAX])
 {
@@ -56,15 +54,13 @@ static t_req	*new_entry(char *name, t_stat *stat, char path[PATH_MAX])
 	new->next = NULL;
 	return (new);
 }
-		
 
-int	add_file(char path[PATH_MAX], char *name, t_req **head)
-{	
+int				add_file(char path[PATH_MAX], char *name, t_req **head)
+{
 	char	full_path[PATH_MAX];
 	t_stat	stat;
 
-	if (!(map_path(path, name, full_path)))
-		ft_err(7, "Path name too long");
+	map_path(path, name, full_path);
 	if (lstat(full_path, &stat))
 		return (0);
 	if (!*head)
@@ -76,20 +72,20 @@ int	add_file(char path[PATH_MAX], char *name, t_req **head)
 		(*head)->next = new_entry(name, &stat, path);
 	}
 	return (1);
-}	
+}
 
-t_req	*fill_list(char	**av, int f, int *stage)
+t_req			*fill_list(char **av, int f, int *stage)
 {
 	t_req	*head;
 	t_req	*err;
-	int	flag;
-	int	i;
+	int		flag;
+	int		i;
 
-	head= NULL;
+	head = NULL;
 	err = NULL;
 	i = 1;
 	flag = 0;
-	while(av[i])
+	while (av[i])
 	{
 		if (!(add_file("", av[i], &head)))
 			err = ft_buff_err(&err, av[i], &flag);

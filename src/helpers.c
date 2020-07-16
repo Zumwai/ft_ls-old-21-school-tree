@@ -6,27 +6,27 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 10:12:11 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 13:45:29 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 14:54:40 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_req	*swap_nodes(t_req *node1, t_req *node2)
+t_req		*swap_nodes(t_req *node1, t_req *node2)
 {
 	node1->next = node2->next;
 	node2->next = node1;
 	return (node2);
 }
 
-int	ft_check_dots(const char *s1)
+int			ft_check_dots(const char *s1)
 {
-	if (ft_strcmp(s1, "..") && ft_strcmp (s1, "."))
-		return (0);	
+	if (ft_strcmp(s1, "..") && ft_strcmp(s1, "."))
+		return (0);
 	return (1);
 }
 
-int	ft_summ_blocksize(t_req *fls)
+int			ft_summ_blocksize(t_req *fls)
 {
 	int	total;
 
@@ -35,7 +35,7 @@ int	ft_summ_blocksize(t_req *fls)
 	total = 0;
 	while (fls)
 	{
-		total +=fls->block;
+		total += fls->block;
 		fls = fls->next;
 	}
 	ft_putstr("total ");
@@ -64,32 +64,18 @@ static char	ft_file_type(int mode)
 	return ('-');
 }
 
-void	ft_ACL(int mode, char str[11])
+void		ft_mode(int mode, char str[11])
 {
-	int	i;
-	i = 0;
-
-	while (i < 10)
-		str[i++] = '-';
 	str[0] = ft_file_type(mode);
-	if (S_IRUSR & mode)
-		str[1] = 'r';
-	if (S_IWUSR & mode)
-		str[2] = 'w';
-	if (S_IXUSR & mode)
-		str[3] = 'x';
-	if (S_IRGRP & mode)
-		str[4] = 'r';
-	if (S_IWGRP & mode)
-		str[5] = 'w';
-	if (S_IXGRP & mode)
-		str[6] = 'x';
-	if (S_IROTH & mode)
-		str[7] = 'r';
-	if (S_IWOTH & mode)
-		str[8] = 'w';
-	if (S_IXOTH & mode)
-		str[9] = 'x';
+	str[1] = (S_IRUSR & mode) ? 'r' : '-';
+	str[2] = (S_IWUSR & mode) ? 'w' : '-';
+	str[3] = (S_IXUSR & mode) ? 'x' : '-';
+	str[4] = (S_IRGRP & mode) ? 'r' : '-';
+	str[5] = (S_IWGRP & mode) ? 'w' : '-';
+	str[6] = (S_IXGRP & mode) ? 'x' : '-';
+	str[7] = (S_IROTH & mode) ? 'r' : '-';
+	str[8] = (S_IWOTH & mode) ? 'w' : '-';
+	str[9] = (S_IXOTH & mode) ? 'x' : '-';
 	str[10] = '\0';
 	if (S_ISUID & mode)
 		str[3] = (str[3] == '-') ? 'S' : 's';
@@ -97,5 +83,4 @@ void	ft_ACL(int mode, char str[11])
 		str[6] = (str[6] == '-') ? 'S' : 's';
 	if (S_ISVTX & mode)
 		str[9] = (str[9] == '-') ? 'T' : 't';
-	ft_putstr(str);
 }

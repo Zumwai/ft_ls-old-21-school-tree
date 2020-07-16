@@ -6,15 +6,14 @@
 /*   By: aophion <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/11 13:34:57 by aophion           #+#    #+#             */
-/*   Updated: 2020/07/15 13:28:25 by aophion          ###   ########.fr       */
+/*   Updated: 2020/07/16 15:11:01 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-
 static void	ft_some_err(void)
-{	
+{
 	ft_putstr_fd("ft_ls: illegal option -- -\nusage: ft_ls [-", 2);
 	ft_putstr_fd(OPTIONS, 2);
 	ft_putstr_fd("] [file ...]\n", 2);
@@ -30,10 +29,7 @@ void		ft_err(int i, char *av)
 		ft_putstr(": ");
 	}
 	if (i != 7 && i != 4 && i != 3 && i != 10)
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putchar('\n');
-	}
+		perror("");
 	if (i == 4 || i == 3)
 		ft_some_err();
 	if (i == 10)
@@ -45,13 +41,13 @@ void		ft_err(int i, char *av)
 		exit(-1);
 }
 
-void	ft_handle_err(t_req *head, int f)
+void		ft_handle_err(t_req *head, int f)
 {
 	t_req	*tmp;
 
 	if (!head)
 		return ;
-	if (!f)
+	if (!(f & K_F))
 		head = ft_lex_sort(head);
 	tmp = head;
 	while (head)
@@ -61,8 +57,8 @@ void	ft_handle_err(t_req *head, int f)
 	}
 	ft_free_sky(tmp);
 }
-	
-t_req	*ft_buff_err(t_req **head, char *name, int *flag)
+
+t_req		*ft_buff_err(t_req **head, char *name, int *flag)
 {
 	t_req	*new;
 	t_req	*tmp;
@@ -80,7 +76,7 @@ t_req	*ft_buff_err(t_req **head, char *name, int *flag)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
-	}	
+	}
 	*flag = 1;
 	return (*head);
 }
