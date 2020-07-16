@@ -43,7 +43,7 @@ t_req		*ft_print_files(t_req *lst, int key)
 	if (!lst)
 		return (lst);
 	lst = ft_sorting(lst, key);
-	if ((key & K_S) || (key & K_L))
+	if ((key & K_S) || (key & K_L) || (key & K_G))
 		ft_summ_blocksize(lst);
 	head = lst;
 	if ((key & K_L) || (key & K_G))
